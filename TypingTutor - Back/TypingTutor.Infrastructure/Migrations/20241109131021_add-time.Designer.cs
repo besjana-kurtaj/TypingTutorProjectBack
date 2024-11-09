@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using TypingTutor.Infrastructure;
 
@@ -11,9 +12,11 @@ using TypingTutor.Infrastructure;
 namespace TypingTutor.Infrastructure.Migrations
 {
     [DbContext(typeof(TypingTutorDbContext))]
-    partial class TypingTutorDbContextModelSnapshot : ModelSnapshot
+    [Migration("20241109131021_add-time")]
+    partial class addtime
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -155,6 +158,32 @@ namespace TypingTutor.Infrastructure.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
+            modelBuilder.Entity("TypingTutor.Domain.Lesson", b =>
+                {
+                    b.Property<int>("LessonId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("LessonId"));
+
+                    b.Property<string>("Content")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("LevelId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("LessonId");
+
+                    b.HasIndex("LevelId");
+
+                    b.ToTable("Lessons");
+                });
+
             modelBuilder.Entity("TypingTutor.Domain.Level", b =>
                 {
                     b.Property<int>("LevelId")
@@ -162,10 +191,6 @@ namespace TypingTutor.Infrastructure.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("LevelId"));
-
-                    b.Property<string>("Description")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("Difficulty")
                         .HasColumnType("int");
@@ -268,7 +293,7 @@ namespace TypingTutor.Infrastructure.Migrations
                     b.Property<DateTime>("CompletionDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("LevelId")
+                    b.Property<int>("LessonId")
                         .HasColumnType("int");
 
                     b.Property<double>("Speed")
@@ -280,7 +305,7 @@ namespace TypingTutor.Infrastructure.Migrations
 
                     b.HasKey("UserProgressId");
 
-                    b.HasIndex("LevelId");
+                    b.HasIndex("LessonId");
 
                     b.HasIndex("UserId");
 
@@ -338,11 +363,22 @@ namespace TypingTutor.Infrastructure.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("TypingTutor.Domain.UserProgress", b =>
+            modelBuilder.Entity("TypingTutor.Domain.Lesson", b =>
                 {
                     b.HasOne("TypingTutor.Domain.Level", "Level")
-                        .WithMany()
+                        .WithMany("Lessons")
                         .HasForeignKey("LevelId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Level");
+                });
+
+            modelBuilder.Entity("TypingTutor.Domain.UserProgress", b =>
+                {
+                    b.HasOne("TypingTutor.Domain.Lesson", "Lesson")
+                        .WithMany("UserProgresses")
+                        .HasForeignKey("LessonId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -352,9 +388,19 @@ namespace TypingTutor.Infrastructure.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Level");
+                    b.Navigation("Lesson");
 
                     b.Navigation("User");
+                });
+
+            modelBuilder.Entity("TypingTutor.Domain.Lesson", b =>
+                {
+                    b.Navigation("UserProgresses");
+                });
+
+            modelBuilder.Entity("TypingTutor.Domain.Level", b =>
+                {
+                    b.Navigation("Lessons");
                 });
 
             modelBuilder.Entity("TypingTutor.Domain.User", b =>

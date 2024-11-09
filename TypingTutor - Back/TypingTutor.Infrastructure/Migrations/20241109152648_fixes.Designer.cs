@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using TypingTutor.Infrastructure;
 
@@ -11,9 +12,11 @@ using TypingTutor.Infrastructure;
 namespace TypingTutor.Infrastructure.Migrations
 {
     [DbContext(typeof(TypingTutorDbContext))]
-    partial class TypingTutorDbContextModelSnapshot : ModelSnapshot
+    [Migration("20241109152648_fixes")]
+    partial class fixes
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("TypingTutor.Application")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+9228163ff51fc895403c15c9fb07841ee40939a7")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+f6c1735538cc3a247fde2b211ec520055c8ae2d6")]
 [assembly: System.Reflection.AssemblyProductAttribute("TypingTutor.Application")]
 [assembly: System.Reflection.AssemblyTitleAttribute("TypingTutor.Application")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

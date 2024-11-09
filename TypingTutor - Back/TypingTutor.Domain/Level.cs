@@ -11,7 +11,9 @@ namespace TypingTutor.Domain
         public int LevelId { get; set; }
         public string Name { get; set; } = string.Empty;
         public int Difficulty { get; set; }
+        public int TimeLimitInSeconds { get; set; } = 0;
+        public string Description {  get; set; }
 
-        public ICollection<Lesson> Lessons { get; set; }
+
     }
 }
